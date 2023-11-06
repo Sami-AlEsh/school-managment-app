@@ -3,6 +3,7 @@ import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
 import { LessonType } from './lesson.type';
 import { LessonService } from './lesson.service';
 import { Lesson } from './lesson.entity';
+import { CreateLessonInput } from './lesson.input';
 
 @Resolver((of) => LessonType)
 export class LessonResolver {
@@ -13,12 +14,15 @@ export class LessonResolver {
     return this.lessonService.getLesson(id);
   }
 
+  @Query((returns) => [LessonType])
+  async getLessons(): Promise<Lesson[]> {
+    return this.lessonService.getLessons();
+  }
+
   @Mutation((returns) => LessonType)
   async createLesson(
-    @Args('name') name: string,
-    @Args('startDate') startDate: string,
-    @Args('endDate') endDate: string,
+    @Args('createLessonInput') createLesson: CreateLessonInput,
   ): Promise<Lesson> {
-    return this.lessonService.createLesson(name, startDate, endDate);
+    return this.lessonService.createLesson(createLesson);
   }
 }
