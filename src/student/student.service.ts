@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { Args } from '@nestjs/graphql';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuid } from 'uuid';
 
 import { Student } from './student.entity';
 import { CreateStudentInput } from './create-student.input';
@@ -13,16 +13,13 @@ export class StudentService {
     private studentRepository: Repository<Student>,
   ) {}
 
-  async createStudent(
-    @Args('createStudentInput')
-    createStudentInput: CreateStudentInput,
-  ) {
-    const { name, fname, lname } = createStudentInput;
+  async createStudent(createStudentInput: CreateStudentInput) {
+    const { firstName, lastName } = createStudentInput;
 
     const student = this.studentRepository.create({
-      name,
-      fname,
-      lname,
+      id: uuid(),
+      firstName,
+      lastName,
     });
 
     return this.studentRepository.save(student);

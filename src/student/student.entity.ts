@@ -9,8 +9,8 @@ export class Student {
   id: string;
 
   @Column()
-  fname: string;
+  firstName: string;
 
   @Column()
-  lname: string;
+  lastName: string;
 }

@@ -1,11 +1,13 @@
-import { ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
-@ObjectType('Student')
+@InputType()
 export class CreateStudentInput {
   @IsNotEmpty()
-  fname: string;
+  @Field()
+  firstName: string;
 
   @IsNotEmpty()
-  lname: string;
+  @Field()
+  lastName: string;
 }
