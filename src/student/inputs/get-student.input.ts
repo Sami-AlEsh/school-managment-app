@@ -1,7 +1,10 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsUUID } from 'class-validator';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class GetStudentInput {
-  @Field()
+  @IsUUID()
+  @IsNotEmpty()
+  @Field((type) => ID)
   id: string;
 }
