@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import { Lesson } from './lesson.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateLessonInput } from './lesson.input';
+import { CreateLessonInput } from './input/lesson.input';
 
 @Injectable()
 export class LessonService {
