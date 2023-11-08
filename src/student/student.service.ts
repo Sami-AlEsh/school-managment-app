@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuid } from 'uuid';
@@ -11,7 +11,7 @@ import { GetStudentInput } from './inputs/get-student.input';
 export class StudentService {
   constructor(
     @InjectRepository(Student)
-    private studentRepository: Repository<Student>,
+    private readonly studentRepository: Repository<Student>,
   ) {}
 
   async getStudentById(getStudentInput: GetStudentInput): Promise<Student> {
@@ -33,5 +33,13 @@ export class StudentService {
     });
 
     return this.studentRepository.save(student);
+  }
+
+  async getStudentsByIds(studentsIds: string[]): Promise<Student[]> {
+    return this.studentRepository.find({
+      where: {
+        id: In(studentsIds),
+      },
+    });
   }
 }

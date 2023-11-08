@@ -1,9 +1,9 @@
+import { v4 as uuid } from 'uuid';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { Lesson } from './lesson.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLessonInput } from './input/lesson.input';
 import { AssignStudentsInput } from './input/assign-students.input';
 
@@ -23,13 +23,13 @@ export class LessonService {
   }
 
   async createLesson(createLessonInput: CreateLessonInput): Promise<Lesson> {
-    const { name, startDate, endDate, students } = createLessonInput;
+    const { name, startDate, endDate, studentsIds } = createLessonInput;
     const lesson = this.lessonRepository.create({
       id: uuid(),
       name,
       startDate,
       endDate,
-      students,
+      studentsIds,
     });
 
     return this.lessonRepository.save(lesson);
@@ -42,8 +42,8 @@ export class LessonService {
     const lesson = await this.lessonRepository.findOne({
       where: { id: lessonId },
     });
-    const studentsIdsSet = new Set(...lesson.students, ...studentsIds);
-    lesson.students = Array.from(studentsIdsSet);
+    const studentsIdsSet = new Set(...lesson.studentsIds, ...studentsIds);
+    lesson.studentsIds = Array.from(studentsIdsSet);
     return this.lessonRepository.save(lesson);
   }
 }

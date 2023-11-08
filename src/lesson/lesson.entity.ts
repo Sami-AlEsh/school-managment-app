@@ -18,5 +18,5 @@ export class Lesson {
   endDate: string;
 
   @Column()
-  students: string[];
+  studentsIds: string[];
 }
